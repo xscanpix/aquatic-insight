@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
     "skipLibCheck": true,
+    "allowJs": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -18,30 +19,17 @@
         "name": "next"
       }
     ],
-    "baseUrl": "src/",
     "paths": {
-      "@/db/*": ["db/*"],
-      "@/contracts/*": ["contracts/*"],
-      "@/lib/*": ["lib/*"],
-      "@/features/*": ["features/*"],
-      "@/types/*": ["types/*"],
-      "@/components/*": ["components/*"],
-      "@/utils/*": ["utils/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "environment.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     ".next/types/**/*.ts",
-    "./dist/types/**/*.ts"
+    "scripts/**/*.ts"
   ],
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS",
-      "baseUrl": "src/"
-    }
-  }
+  "exclude": ["node_modules"]
 }
