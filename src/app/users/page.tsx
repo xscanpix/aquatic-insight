@@ -1,8 +1,10 @@
 import UserList from "~/features/user/UserList";
 import { api, HydrateClient } from "~/trpc/server";
 
+export const dynamic = "auto";
+
 export default async function UsersPage() {
-  void api.user.all.prefetch();
+  await api.user.all.prefetch();
 
   return (
     <HydrateClient>

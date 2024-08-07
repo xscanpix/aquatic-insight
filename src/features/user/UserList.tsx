@@ -4,7 +4,8 @@ import { api, type RouterOutputs } from "~/trpc/react";
 
 import type { ElementType } from "~/types";
 
-type UserOutput = ElementType<RouterOutputs["user"]["all"]>;
+type UsersOutput = RouterOutputs["user"]["all"];
+type UserOutput = ElementType<UsersOutput>;
 
 function UserItem({ user }: { user: UserOutput }) {
   return (
@@ -20,11 +21,17 @@ function UserItem({ user }: { user: UserOutput }) {
 }
 
 export default function UserList() {
-  const [users] = api.user.all.useSuspenseQuery();
+  const getUsers = api.user.all.useQuery();
+
+  if (getUsers.status !== "success") {
+    return <>Loading...</>;
+  }
+
+  const { data } = getUsers;
 
   return (
     <ul>
-      {users.map((user, index) => {
+      {data.map((user, index) => {
         return (
           <li key={index}>
             <UserItem user={user} />

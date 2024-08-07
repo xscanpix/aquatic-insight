@@ -5,6 +5,8 @@ import { createTRPCContext } from "~/server/api/trpc";
 
 import type { NextRequest } from "next/server";
 
+export const dynamic = "auto";
+
 const createContext = async (req: NextRequest) => {
   return createTRPCContext({
     headers: req.headers,
