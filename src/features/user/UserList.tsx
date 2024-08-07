@@ -1,8 +1,7 @@
 "use client";
 
-import { api } from "@/app/_trpc/react";
-
-import type { SelectUser } from "@/server/db/schema/user.schema";
+import type { SelectUser } from "~/server/db/schema/user.schema";
+import { api } from "~/trpc/react";
 
 function UserItem({ user }: { user: SelectUser }) {
   return (
@@ -18,15 +17,11 @@ function UserItem({ user }: { user: SelectUser }) {
 }
 
 export default function UserList() {
-  const users = api.user.all.useQuery();
-
-  if (!users.data) {
-    return null;
-  }
+  const [users] = api.user.all.useSuspenseQuery();
 
   return (
     <ul>
-      {users.data.map((user, index) => {
+      {users.map((user, index) => {
         return (
           <li key={index}>
             <UserItem user={user} />

@@ -1,8 +1,8 @@
-import { api } from "@/app/_trpc/server";
-import UserEditForm from "@/features/user/UserForm";
+import UserEditForm from "~/features/user/UserForm";
+import { api } from "~/trpc/server";
 
 export default async function UserPage({ params }: { params: { id: string } }) {
-  const user = await api.user.byId(params.id);
+  const user = await api.user.byId(params);
 
-  return <UserEditForm inititalData={user}></UserEditForm>;
+  return <UserEditForm initialData={user}></UserEditForm>;
 }

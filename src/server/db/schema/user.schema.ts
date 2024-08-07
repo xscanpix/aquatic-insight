@@ -37,14 +37,15 @@ const updateUserSchema = selectUserSchema
     lastName: true,
     email: true,
   });
+const userIDSchema = selectUserSchema.pick({ id: true });
 
 type SelectUser = z.infer<typeof selectUserSchema>;
 type InsertUser = z.infer<typeof insertUserSchema>;
 type UpdateUser = z.infer<typeof updateUserSchema>;
 
-type UserID = typeof selectUserSchema._type.id;
+type UserID = z.infer<typeof userIDSchema>;
 
 export default users;
 
-export { selectUserSchema, insertUserSchema, updateUserSchema };
+export { selectUserSchema, insertUserSchema, updateUserSchema, userIDSchema };
 export type { SelectUser, InsertUser, UpdateUser, UserID };

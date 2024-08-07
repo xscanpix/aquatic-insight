@@ -2,23 +2,28 @@ import "server-only";
 
 import { eq } from "drizzle-orm";
 
-import db from "..";
-import users, { type InsertUser, type UpdateUser, type UserID } from "../schema/user.schema";
+import Repository from "./repository";
 
-export default class UserRepository {
-  static async update(payload: UpdateUser) {
-    return await db.update(users).set(payload).where(eq(users.id, payload.id)).returning();
+import type { InsertUser, UpdateUser, UserID } from "../schema/user.schema";
+
+class UserRepository extends Repository {
+  readonly users = this.schema.users;
+
+  async update(payload: UpdateUser) {
+    return await this.db.update(this.users).set(payload).where(eq(this.users.id, payload.id)).returning();
   }
 
-  static async create(payload: InsertUser) {
-    return await db.insert(users).values(payload).returning();
+  async create(payload: InsertUser) {
+    return await this.db.insert(this.users).values(payload).returning();
   }
 
-  static async getById(id: UserID) {
-    return await db.select().from(users).where(eq(users.id, id));
+  async getById(payload: UserID) {
+    return await this.db.select().from(this.users).where(eq(this.users.id, payload.id));
   }
 
-  static async getAll() {
-    return await db.select().from(users);
+  async getAll() {
+    return await this.db.select().from(this.users);
   }
 }
+
+export default UserRepository;

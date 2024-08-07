@@ -2,28 +2,38 @@
 
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { api } from "@/app/_trpc/react";
+import { api } from "~/trpc/react";
 
-import type { SelectUser, UpdateUser } from "@/server/db/schema/user.schema";
+import type { SelectUser, UpdateUser } from "~/server/db/schema/user.schema";
 
-export default function UserEditForm({ inititalData }: { inititalData: SelectUser }) {
+export default function UserEditForm({ initialData }: { initialData: SelectUser }) {
+  const [user] = api.user.byId.useSuspenseQuery(
+    { id: initialData.id },
+    {
+      initialData,
+    }
+  );
+
   const { register, handleSubmit } = useForm<UpdateUser>({
-    defaultValues: inititalData,
+    defaultValues: user,
   });
 
   const utils = api.useUtils();
 
-  const createUser = api.user.update.useMutation();
+  const createUser = api.user.update.useMutation({
+    onSuccess: async () => {
+      await utils.user.invalidate();
+    },
+  });
 
   const onSubmit: SubmitHandler<UpdateUser> = async (data) => {
     createUser.mutate(data);
-    await utils.user.invalidate();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        ID: {inititalData.id}
+        ID: {user.id}
         <input type="hidden" {...register("id")} />
       </div>
       <div>
@@ -44,8 +54,8 @@ export default function UserEditForm({ inititalData }: { inititalData: SelectUse
           <input {...register("email")} />
         </label>
       </div>
-      <div>Created: {inititalData.createdAt.toString()}</div>
-      <div>Updated: {inititalData.updatedAt.toString()}</div>
+      <div>Created: {user.createdAt.toString()}</div>
+      <div>Updated: {user.updatedAt.toString()}</div>
       <button type="submit">Submit</button>
     </form>
   );
