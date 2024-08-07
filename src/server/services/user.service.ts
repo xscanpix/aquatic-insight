@@ -1,7 +1,12 @@
 import "server-only";
 
-import UserRepository from "../db/repository/user.repository";
-import type { InsertUser, UpdateUser, UserID } from "../db/schema/user.schema";
+import UserRepository from "~/server/db/repository/user.repository";
+
+import type {
+  InsertUser,
+  UpdateUser,
+  UserID,
+} from "~/server/db/schema/user.schema";
 
 class UserService {
   readonly repository: UserRepository;

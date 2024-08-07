@@ -10,7 +10,11 @@ class UserRepository extends Repository {
   readonly users = this.schema.users;
 
   async update(payload: UpdateUser) {
-    return await this.db.update(this.users).set(payload).where(eq(this.users.id, payload.id)).returning();
+    return await this.db
+      .update(this.users)
+      .set(payload)
+      .where(eq(this.users.id, payload.id))
+      .returning();
   }
 
   async create(payload: InsertUser) {
@@ -18,7 +22,10 @@ class UserRepository extends Repository {
   }
 
   async getById(payload: UserID) {
-    return await this.db.select().from(this.users).where(eq(this.users.id, payload.id));
+    return await this.db
+      .select()
+      .from(this.users)
+      .where(eq(this.users.id, payload.id));
   }
 
   async getAll() {

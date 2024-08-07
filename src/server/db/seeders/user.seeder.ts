@@ -1,4 +1,4 @@
-import schema from "@/server/db/schema";
+import schema from "~/server/db/schema";
 
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 

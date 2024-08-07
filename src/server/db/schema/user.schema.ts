@@ -3,7 +3,8 @@ import "server-only";
 import { sql } from "drizzle-orm";
 import { pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
+
+import type { z } from "zod";
 
 const users = pgTable("users", {
   id: varchar("id")
@@ -42,7 +43,6 @@ const userIDSchema = selectUserSchema.pick({ id: true });
 type SelectUser = z.infer<typeof selectUserSchema>;
 type InsertUser = z.infer<typeof insertUserSchema>;
 type UpdateUser = z.infer<typeof updateUserSchema>;
-
 type UserID = z.infer<typeof userIDSchema>;
 
 export default users;

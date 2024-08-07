@@ -5,10 +5,14 @@ import postgres from "postgres";
 
 import schema, { type Schema } from "../schema";
 
-interface IDatabase<Schema extends Record<string, unknown>> extends PostgresJsDatabase<Schema> {}
+type IDatabase<Schema extends Record<string, unknown>> =
+  PostgresJsDatabase<Schema>;
 
 class DatabaseWrapper {
-  constructor(readonly schema: Schema, readonly db: IDatabase<Schema>) {}
+  constructor(
+    readonly schema: Schema,
+    readonly db: IDatabase<Schema>,
+  ) {}
 }
 
 let databaseWrapper: DatabaseWrapper | undefined = undefined;

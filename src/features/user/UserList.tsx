@@ -1,9 +1,12 @@
 "use client";
 
-import type { SelectUser } from "~/server/db/schema/user.schema";
-import { api } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 
-function UserItem({ user }: { user: SelectUser }) {
+import type { ElementType } from "~/types";
+
+type UserOutput = ElementType<RouterOutputs["user"]["all"]>;
+
+function UserItem({ user }: { user: UserOutput }) {
   return (
     <div>
       <p>{user.id}</p>

@@ -2,19 +2,26 @@
 
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { api } from "~/trpc/react";
+import { api, type RouterInputs, type RouterOutputs } from "~/trpc/react";
 
-import type { SelectUser, UpdateUser } from "~/server/db/schema/user.schema";
+import type { ElementType } from "~/types";
 
-export default function UserEditForm({ initialData }: { initialData: SelectUser }) {
+type UserOutput = ElementType<RouterOutputs["user"]["all"]>;
+type UserInput = RouterInputs["user"]["update"];
+
+export default function UserEditForm({
+  initialData,
+}: {
+  initialData: UserOutput;
+}) {
   const [user] = api.user.byId.useSuspenseQuery(
     { id: initialData.id },
     {
       initialData,
-    }
+    },
   );
 
-  const { register, handleSubmit } = useForm<UpdateUser>({
+  const { register, handleSubmit } = useForm<UserInput>({
     defaultValues: user,
   });
 
@@ -26,7 +33,7 @@ export default function UserEditForm({ initialData }: { initialData: SelectUser 
     },
   });
 
-  const onSubmit: SubmitHandler<UpdateUser> = async (data) => {
+  const onSubmit: SubmitHandler<UserInput> = async (data) => {
     createUser.mutate(data);
   };
 

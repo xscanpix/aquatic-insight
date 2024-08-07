@@ -1,5 +1,6 @@
-import type { Config } from "drizzle-kit";
 import { config } from "dotenv";
+
+import type { Config } from "drizzle-kit";
 
 config({ path: ".env.local" });
 
@@ -8,7 +9,7 @@ export default {
   out: "./src/server/db/migrations",
   schema: ["./src/server/db/schema/*.ts"],
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.POSTGRES_URL,
   },
   verbose: true,
   strict: true,
